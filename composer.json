@@ -1,0 +1,31 @@
+{
+  "name": "marsoltys/uservel",
+  "description": "User management ",
+  "keywords": [
+    "user",
+    "laravel"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Mariusz Soltys",
+      "email": "mar.soltys@gmail.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "laravel/framework": ">=5.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "marsoltys\\uservel\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "marsoltys\\uservel\\UservelServiceProvider"
+      ]
+    }
+  }
+}
