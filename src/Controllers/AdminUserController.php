@@ -9,7 +9,7 @@
  *
  */
 
-namespace marsoltys\Controllers;
+namespace marsoltys\uservel\Controllers;
 
 
 use Illuminate\Routing\Controller;
