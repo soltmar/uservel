@@ -19,6 +19,8 @@ class UservelServiceProvider extends ServiceProvider
 {
     public function boot()
     {
+        // Register Routes
+        $this->loadRoutesFrom(__DIR__.'/routes.php');
 
     }
 
