@@ -22,6 +22,8 @@ class UservelServiceProvider extends ServiceProvider
         // Register Routes
         $this->loadRoutesFrom(__DIR__.'/routes.php');
 
+        // Load Views
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'uservel');
     }
 
     public function register()

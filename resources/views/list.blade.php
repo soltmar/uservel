@@ -1,33 +1,32 @@
-@extends('layouts.app')
+@extends(config('uservel.mainLayout'))
 
 @section('content')
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Username</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td colspan="2">Larry the Bird</td>
-            <td>@twitter</td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="container">
+        <table class="table table-hover uservel-list">
+            <thead>
+            <tr>
+                <th>#</th>
+                @foreach(config('uservel.displayProperties') as $heading)
+                    <th>{{ $heading }}</th>
+                @endforeach
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($users as $item)
+                <tr>
+                    <th scope="row">{{  $loop->iteration }}</th>
+                    @foreach(config('uservel.displayProperties') as $property)
+                        <td>{{ $item->$property }}</td>
+                    @endforeach
+                    <td>
+                        <i class="fa fa-trash" aria-hidden="true" title="delete"></i>
+                        <i class="fa fa-pencil" aria-hidden="true" title="edit"></i>
+
+                    </td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
 @endsection
