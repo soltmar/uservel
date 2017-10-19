@@ -20,13 +20,17 @@
                         <td>{{ $item->$property }}</td>
                     @endforeach
                     <td>
-                        <i class="fa fa-trash" aria-hidden="true" title="delete"></i>
-                        <i class="fa fa-pencil" aria-hidden="true" title="edit"></i>
-
+                        <a href="{{ route('user.edit', ['user' => $item->id]) }}" >
+                            <i class="fa fa-pencil" aria-hidden="true" data-uservel-id="{{ $item->id }}" title="edit"></i>
+                        </a>
+                        <a href="{{ route('user.destroy', ['user' => $item->id]) }}" >
+                            <i class="fa fa-trash" aria-hidden="true" title="delete"></i>
+                        </a>
                     </td>
                 </tr>
             @endforeach
             </tbody>
         </table>
     </div>
+    @include('uservel::modal')
 @endsection

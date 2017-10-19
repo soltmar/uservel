@@ -15,7 +15,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = \User::select(config('uservel.displayProperties'))->get();
+        $select = config('uservel.displayProperties');
+        $select[] = 'id';
+        $users = \User::select($select)->get();
         return view('uservel::list')->with([
             'user'  => Auth::user(),
             'users' => $users
