@@ -5,6 +5,7 @@ namespace marsoltys\uservel\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use User;
 
 class UserController extends Controller
 {
@@ -31,7 +32,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('uservel::edit', [
+            'title' => 'Create User'
+        ]);
     }
 
     /**
@@ -42,7 +45,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
@@ -64,7 +67,11 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::findOrFail($id);
+        return view('uservel::edit', [
+            'user'=>$user,
+            'title' => 'Update '. $user->name
+            ]);
     }
 
     /**

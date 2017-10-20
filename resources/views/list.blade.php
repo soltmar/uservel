@@ -20,10 +20,11 @@
                         <td>{{ $item->$property }}</td>
                     @endforeach
                     <td>
-                        <a href="{{ route('user.edit', ['user' => $item->id]) }}" >
+                        <a href="{{ route('user.edit', ['user' => $item->id]) }}" class="text-success">
                             <i class="fa fa-pencil" aria-hidden="true" data-uservel-id="{{ $item->id }}" title="edit"></i>
                         </a>
-                        <a href="{{ route('user.destroy', ['user' => $item->id]) }}" >
+                        &nbsp;&nbsp;
+                        <a href="{{ route('user.destroy', ['user' => $item->id]) }}" class="text-danger">
                             <i class="fa fa-trash" aria-hidden="true" title="delete"></i>
                         </a>
                     </td>
@@ -33,4 +34,9 @@
         </table>
     </div>
     @include('uservel::modal')
+    <script>
+        $(document).ready(function(){
+
+        })
+    </script>
 @endsection
