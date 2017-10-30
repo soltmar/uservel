@@ -2,11 +2,11 @@
 
 <?php
 $data = new \User();;
-$route = route('user.create');
+$route = route('user.store');
 
 if (!empty($user['username'])) {
     $data = $user;
-    $route = route('user.store');
+    $route = route('user.update');
 }
 ?>
 
@@ -47,7 +47,7 @@ if (!empty($user['username'])) {
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="confirm-password">Confirm Password</label>
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                        <input type="password" class="form-control" id="confirm-password" name="confirm-password" placeholder="Password">
                     </div>
                 </div>
             </div>

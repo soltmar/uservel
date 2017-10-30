@@ -45,7 +45,17 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-
+        //$data = $request->only('name', 'username', 'email', 'password', 'confirm-password');
+        $data = $request->validate([
+            'username' => 'required|unique:users|max:255',
+            'name' => 'required|max:255',
+            'email' => 'required|email',
+            'password' => 'nullable',
+            'confirm-password' => 'same:password'
+        ]);
+        if (User::create($data)) {
+            return redirect()->route('user.index');
+        }
     }
 
     /**
@@ -94,6 +104,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        User::destroy($id);
     }
 }
