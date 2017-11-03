@@ -12,8 +12,10 @@
 namespace marsoltys\uservel;
 
 
+use Blade;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
+use View;
 
 class UservelServiceProvider extends ServiceProvider
 {
@@ -24,6 +26,15 @@ class UservelServiceProvider extends ServiceProvider
 
         // Load Views
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'uservel');
+
+        View::composer('uservel::alert', function ($view) {
+            $alerts = session('laralert');
+            $view->with('alerts', $alerts);
+        });
+
+        Blade::if('notempty', function ($item) {
+            return !empty($item);
+        });
     }
 
     public function register()

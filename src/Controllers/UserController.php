@@ -14,11 +14,12 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $select = config('uservel.displayProperties');
         $select[] = 'id';
         $users = \User::select($select)->get();
+        //$request->session()->flash('laralert', [['type' => 'success', 'content' => 'Test 123']]);
         return view('uservel::list')->with([
             'user'  => Auth::user(),
             'users' => $users
@@ -50,7 +51,7 @@ class UserController extends Controller
             'username' => 'required|unique:users|max:255',
             'name' => 'required|max:255',
             'email' => 'required|email',
-            'password' => 'nullable',
+            'password' => 'required',
             'confirm-password' => 'same:password'
         ]);
         if (User::create($data)) {

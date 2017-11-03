@@ -15,6 +15,7 @@
     <title>Uservel</title>
 </head>
 <body>
+    @include('uservel::alert')
     @yield('content')
 </body>
 </html>

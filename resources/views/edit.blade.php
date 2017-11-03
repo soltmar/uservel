@@ -1,12 +1,14 @@
 @extends('uservel::layout')
 
 <?php
-$data = new \User();;
+$data = new \User();
+$method = 'POST';
 $route = route('user.store');
 
 if (!empty($user['username'])) {
     $data = $user;
-    $route = route('user.update');
+    $method = 'PUT';
+    $route = route('user.update', ['user' => $data->id]);
 }
 ?>
 
@@ -15,6 +17,7 @@ if (!empty($user['username'])) {
         <h3>{{ $title }}</h3>
         <form method="POST" action="{{ $route }}">
             {{ csrf_field() }}
+            {{ method_field($method) }}
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
