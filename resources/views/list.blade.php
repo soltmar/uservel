@@ -1,8 +1,6 @@
-@extends(config('uservel.mainLayout'))
+@extends('uservel::wrapper')
 
-@section('content')
-    <div class="uservel">
-        <div class="container">
+@section('usercontent')
             <table class="table table-hover uservel-list">
                 <thead>
                 <tr>
@@ -34,7 +32,6 @@
                 @endforeach
                 </tbody>
             </table>
-        </div>
         @include('uservel::modal')
         <script>
             $.ajaxSetup({
@@ -58,5 +55,4 @@
                 });
             });
         </script>
-    </div>
 @endsection

@@ -1,4 +1,5 @@
-@extends('uservel::layout')
+@extends('uservel::wrapper')
+
 
 <?php
 $data = new \User();
@@ -12,8 +13,7 @@ if (!empty($user['username'])) {
 }
 ?>
 
-@section('content')
-    <div class="container">
+@section('usercontent')
         <h3>{{ $title }}</h3>
         <form method="POST" action="{{ $route }}">
             {{ csrf_field() }}
@@ -57,5 +57,4 @@ if (!empty($user['username'])) {
 
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
-    </div>
 @endsection
