@@ -3,13 +3,19 @@
 $namespace = 'marsoltys\uservel\Controllers';
 
 /**
-* Admin panel routes.
-*/
+ * Admin panel routes.
+ */
 Route::namespace($namespace)
     ->middleware(config('uservel.middlewares'))
     ->prefix(config('uservel.routePrefix'))
     ->group(function () {
 
-        Route::resource('user', 'UserController');
+        if (class_exists('\Spatie\Permission\PermissionServiceProvider')) {
+            Route::resources([
+                'user/role'       => 'RoleController',
+                'user/permission' => 'PermissionController'
+            ]);
+        }
 
-});
+        Route::resource('user', 'UserController');
+    });

@@ -20,7 +20,7 @@ class UserController extends Controller
         $select[] = 'id';
         $users = \User::select($select)->get();
         //$request->session()->flash('laralert', [['type' => 'success', 'content' => 'Test 123']]);
-        return view('uservel::list')->with([
+        return view('uservel::user.list')->with([
             'user'  => Auth::user(),
             'users' => $users
         ]);
@@ -33,7 +33,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('uservel::edit', [
+        return view('uservel::user.edit', [
             'title' => 'Create User'
         ]);
     }
@@ -79,7 +79,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        return view('uservel::edit', [
+        return view('uservel::user.edit', [
             'user'=>$user,
             'title' => 'Update '. $user->name
             ]);
