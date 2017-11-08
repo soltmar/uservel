@@ -17,6 +17,8 @@ class AddUsernameColumnToUsersTable extends Migration
             if (!$table->hasColumn('username')) {
                 $table->string('username')->unique();
             }
+
+            $table->boolean('superadmin')->nullable();
         });
     }
 
@@ -28,5 +30,8 @@ class AddUsernameColumnToUsersTable extends Migration
     public function down()
     {
         // Since "username" is very likely to be present before running this migration, we are leaving it untouched
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn(['superadmin']);
+        });
     }
 }

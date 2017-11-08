@@ -21,14 +21,14 @@
                 <th scope="row">{{  $loop->iteration }}</th>
                 <td>{{ $item->name }}</td>
                 <td>{{ $item->users->count() }}</td>
-                <td>{{ $item->permissions }}</td>
+                <td>{{ $item->permissions->count() }}</td>
                 <td>
-                    <a href="{{ route('user/role.edit', ['user' => $item->id]) }}" class="text-success">
+                    <a href="{{ route('role.edit', ['role' => $item->id]) }}" class="text-success">
                         <i class="fa fa-pencil" aria-hidden="true" data-uservel-id="{{ $item->id }}"
                            title="edit"></i>
                     </a>
                     &nbsp;&nbsp;
-                    <a href="{{ route('user.destroy', ['user' => $item->id]) }}" class="text-danger delete">
+                    <a href="{{ route('user.destroy', ['role' => $item->id]) }}" class="text-danger delete">
                         <i class="fa fa-trash" aria-hidden="true" title="delete"></i>
                     </a>
                 </td>

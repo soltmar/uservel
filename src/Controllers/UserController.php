@@ -46,14 +46,16 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //$data = $request->only('name', 'username', 'email', 'password', 'confirm-password');
         $data = $request->validate([
             'username' => 'required|unique:users|max:255',
-            'name' => 'required|max:255',
+            'name' => 'required|unique:users|max:255',
             'email' => 'required|email',
             'password' => 'required',
             'confirm-password' => 'same:password'
         ]);
+
+        $data['password'] = bcrypt($data['password']);
+
         if (User::create($data)) {
             return redirect()->route('user.index');
         }
@@ -94,7 +96,24 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        $data = $request->validate([
+            'username' => 'required|max:255|unique:users,username,'.$user->id,
+            'name' => 'required|max:255',
+            'email' => 'required|email|unique:users,email,'.$user->id,
+            'password' => 'nullable',
+            'confirm-password' => 'same:password'
+        ]);
+        if (empty($data['password'])) {
+            unset($data['password']);
+        } else {
+            $data['password'] = bcrypt($data['password']);
+        }
+
+        if ($user->update($data)) {
+            return redirect()->route('user.index');
+        }
     }
 
     /**

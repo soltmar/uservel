@@ -27,7 +27,9 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        return view('uservel::role.form', [
+            'title' => 'Create Role'
+        ]);
     }
 
     /**
@@ -38,7 +40,12 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|unique:roles|max:255'
+        ]);
+        if (Role::create($data)) {
+            return redirect()->route('role.index');
+        }
     }
 
     /**
@@ -60,7 +67,11 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        //
+        $role = Role::findOrFail($id);
+        return view('uservel::role.edit', [
+            'role'=>$role,
+            'title' => 'Update '. $role->name
+        ]);
     }
 
     /**
