@@ -57,8 +57,16 @@ class UserController extends Controller
         $data['password'] = bcrypt($data['password']);
 
         if (User::create($data)) {
-            return redirect()->route('user.index');
+            return redirect()->route('user.index')->with('laralert', [[
+                'type' => 'success',
+                'content' => 'User has been created successfully.'
+            ]]);
         }
+
+        return redirect()->route('user.index')->with('laralert', [[
+            'type' => 'error',
+            'content' => "Error - User hasn't been created!"
+        ]]);
     }
 
     /**
@@ -112,8 +120,16 @@ class UserController extends Controller
         }
 
         if ($user->update($data)) {
-            return redirect()->route('user.index');
+            return redirect()->route('user.index')->with('laralert', [[
+                'type' => 'success',
+                'content' => 'User has been updated successfully.'
+            ]]);
         }
+
+        return redirect()->route('user.index')->with('laralert', [[
+            'type' => 'error',
+            'content' => "Error - User hasn't been updated!"
+        ]]);
     }
 
     /**
@@ -122,8 +138,18 @@ class UserController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        User::destroy($id);
+        if (User::destroy($id)) {
+            return redirect()->route('user.index')->with('laralert', [[
+                'type' => 'success',
+                'content' => 'User has been deleted.'
+            ]]);
+        }
+
+        return redirect()->route('user.index')->with('laralert', [[
+            'type' => 'error',
+            'content' => "Error - User hasn't been deleted!"
+        ]]);
     }
 }

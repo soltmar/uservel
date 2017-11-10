@@ -68,9 +68,9 @@ class RoleController extends Controller
     public function edit($id)
     {
         $role = Role::findOrFail($id);
-        return view('uservel::role.edit', [
+        return view('uservel::role.form', [
             'role'=>$role,
-            'title' => 'Update '. $role->name
+            'title' => "Update {$role->name} role"
         ]);
     }
 
@@ -83,7 +83,15 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $role = Role::findOrFail($id);
+
+        $data = $request->validate([
+            'name' => 'required|max:255|unique:roles,name,'.$role->id,
+        ]);
+
+        if ($role->update($data)) {
+            return redirect()->route('role.index');
+        }
     }
 
     /**
@@ -92,8 +100,18 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        if (Role::destroy($id)) {
+            $request->session()->flash('laralert', [[
+                'type' => 'success',
+                'content' => 'Role has been deleted.'
+            ]]);
+        }
+
+        $request->session()->flash('laralert', [[
+            'type' => 'error',
+            'content' => "Error - Role hasn't been deleted!"
+        ]]);
     }
 }

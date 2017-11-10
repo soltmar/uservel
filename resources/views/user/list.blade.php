@@ -1,5 +1,9 @@
 @extends('uservel::wrapper')
 
+@section('usernav.action')
+    <a href="{{ route('user.create') }}" class="btn btn-success pull-right">New User</a>
+@endsection
+
 @section('usercontent')
     <table class="table table-hover uservel-list">
         <thead>

@@ -13,7 +13,7 @@
     <title>Uservel</title>
 </head>
 <body>
-    @include('uservel::includes.alert')
+
     @yield('content')
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>

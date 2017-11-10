@@ -6,19 +6,27 @@
     });
 
     $(document).ready(function () {
-        $('.user-nav').find('a[href="'+window.location.href+'"]').removeClass('btn-default').addClass('btn-primary');
+
+        $('.uservel .alert').delay(3000).fadeOut('slow');
+
+        var e = "";
+        $('.user-nav').find('a').each(function () {
+            var $a = $(this);
+            if (window.location.href.includes($a.attr('href')) && $a.attr('href').length > e.length) {
+                e = $a;
+            }
+        });
+        e.removeClass('btn-default').addClass('btn-primary');
 
         $('.uservel .delete').on('click', function (e) {
             e.preventDefault();
-            if (confirm('Do you really want to delete this user?')) {
+            if (confirm('Do you really want to delete this item?')) {
                 var link = this.href;
                 $.ajax({
                     method: 'DELETE',
-                    url: link
-                })
-                    .done(function () {
-                        location.reload();
-                    });
+                    url: link,
+                    async: false
+                });
             }
         });
     })

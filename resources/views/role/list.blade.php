@@ -28,7 +28,7 @@
                            title="edit"></i>
                     </a>
                     &nbsp;&nbsp;
-                    <a href="{{ route('user.destroy', ['role' => $item->id]) }}" class="text-danger delete">
+                    <a href="{{ route('role.destroy', ['role' => $item->id]) }}" class="text-danger delete">
                         <i class="fa fa-trash" aria-hidden="true" title="delete"></i>
                     </a>
                 </td>

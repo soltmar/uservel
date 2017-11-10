@@ -14,7 +14,7 @@ class AddUsernameColumnToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            if (!$table->hasColumn('username')) {
+            if (!Schema::hasColumn('users', 'username')) {
                 $table->string('username')->unique();
             }
 

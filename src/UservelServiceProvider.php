@@ -27,7 +27,10 @@ class UservelServiceProvider extends ServiceProvider
         // Load Views
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'uservel');
 
-        View::composer('uservel::alert', function ($view) {
+        // Load Migrations
+        $this->loadMigrationsFrom(__DIR__.'/../migrations');
+
+        View::composer('uservel::includes.alert', function ($view) {
             $alerts = session('laralert');
             $view->with('alerts', $alerts);
         });

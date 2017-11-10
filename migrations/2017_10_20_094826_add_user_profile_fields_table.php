@@ -13,7 +13,9 @@ class AddUserProfileFieldsTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('profile_fields', function (Blueprint $table) {
+            $table->increments('id');
+        });
     }
 
     /**
@@ -23,6 +25,6 @@ class AddUserProfileFieldsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('profile_fields');
     }
 }
