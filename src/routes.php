@@ -17,6 +17,6 @@ Route::namespace($namespace)
             ]);
         }
 
-        Route::delete('user', 'UserController@index');
-        Route::resource('user', 'UserController');
+        Route::delete(config('uservel.route'), 'UserController@index');
+        Route::resource(config('uservel.route'), 'UserController');
     });
