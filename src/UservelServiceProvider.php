@@ -11,16 +11,26 @@
 
 namespace marsoltys\uservel;
 
-
 use Blade;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
+use marsoltys\uservel\Console\SuperAdmin;
 use View;
 
 class UservelServiceProvider extends ServiceProvider
 {
+    protected $commands = [
+        SuperAdmin::class
+    ];
+
+
     public function boot()
     {
+        //Register Console Commands
+        if ($this->app->runningInConsole()) {
+            $this->commands($this->commands);
+        }
+
         // Register Routes
         $this->loadRoutesFrom(__DIR__.'/routes.php');
 
