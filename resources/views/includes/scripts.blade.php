@@ -16,7 +16,9 @@
                 e = $a;
             }
         });
-        e.removeClass('btn-default').addClass('btn-primary');
+        if (e.length > 0) {
+            e.removeClass('btn-default').addClass('btn-primary');
+        }
 
         $('.uservel .delete').on('click', function (e) {
             e.preventDefault();

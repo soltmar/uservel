@@ -6,7 +6,7 @@ $data = new \User();
 $method = 'POST';
 $route = route('user.store');
 
-if (!empty($user['username'])) {
+if (!empty($user['id'])) {
     $data = $user;
     $method = 'PUT';
     $route = route('user.update', ['user' => $data->id]);
