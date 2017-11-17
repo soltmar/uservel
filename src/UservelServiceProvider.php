@@ -48,6 +48,11 @@ class UservelServiceProvider extends ServiceProvider
         Blade::if('notempty', function ($item) {
             return !empty($item);
         });
+
+        //Checks if spatie/laravel-permissions package has been installed
+        Blade::if('permissions', function ($environment) {
+            return class_exists('\Spatie\Permission\PermissionServiceProvider');
+        });
     }
 
     public function register()
