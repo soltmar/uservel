@@ -2,7 +2,7 @@
 
 
 <?php
-$data = new \User();
+$data = new \Spatie\Permission\Models\Role();
 $method = 'POST';
 $route = route('role.store');
 

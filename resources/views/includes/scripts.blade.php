@@ -31,5 +31,32 @@
                 });
             }
         });
+
+        $
+
+        $('.uservel-permissions').on('click', '.assign,.revoke', function (e) {
+            $this = $(this);
+
+            var type = $this.attr('data-uservel-role') ? 'role' : 'perm';
+            var action = $this.hasClass('assign') ? 'assign' : 'revoke';
+
+            if (action === 'assign') {
+                var oposite = 'revoke';
+                var remove = action + ' btn-primary';
+                var add = oposite + ' btn-warning';
+            } else {
+                var oposite = 'assign';
+                var remove = action + ' btn-warning';
+                var add = oposite + ' btn-primary';
+            }
+            var val = action === 'assign' ? $this.attr('data-uservel-' + type) : '';
+            var appendTo = '.' + action + '-' + type + 's-group';
+
+            $this.removeClass(remove)
+                .addClass(add)
+                .text(oposite.charAt(0).toUpperCase() + oposite.slice(1).toLowerCase())
+                .parent().appendTo(appendTo)
+                .find('input').attr('name', 'roles[]').val(val);
+        });
     })
 </script>

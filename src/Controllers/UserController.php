@@ -2,9 +2,10 @@
 
 namespace marsoltys\uservel\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use User;
 
 class UserController extends Controller
@@ -19,7 +20,6 @@ class UserController extends Controller
         $select = config('uservel.displayProperties');
         $select[] = 'id';
         $users = \User::select($select)->get();
-        //$request->session()->flash('laralert', [['type' => 'success', 'content' => 'Test 123']]);
         return view('uservel::user.list')->with([
             'user'  => Auth::user(),
             'users' => $users
@@ -34,7 +34,8 @@ class UserController extends Controller
     public function create()
     {
         return view('uservel::user.edit', [
-            'title' => 'Create User'
+            'title' => 'Create User',
+            'roles' => Role::all()
         ]);
     }
 
@@ -88,9 +89,14 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::where('id', $id)->with(['roles', 'permissions'])->firstOrFail();
+        $roles = Role::all();
+        $permissions = Permission::all();
+
         return view('uservel::user.edit', [
             'user'=>$user,
+            'roles' => $roles->diff($user->roles),
+            'permissions' => $permissions->diff($user->permissions),
             'title' => 'Update '. $user->name
             ]);
     }
@@ -111,8 +117,11 @@ class UserController extends Controller
             'name' => 'required|max:255',
             'email' => 'required|email|unique:users,email,'.$user->id,
             'password' => 'nullable',
-            'confirm-password' => 'same:password'
+            'confirm-password' => 'same:password',
+            'roles' => 'nullable'.$this->rightsInstalled ? '|array' : '',
+            'permissions' => 'nullable'.$this->rightsInstalled ? '|array' : ''
         ]);
+
         if (empty($data['password'])) {
             unset($data['password']);
         } else {
@@ -120,6 +129,9 @@ class UserController extends Controller
         }
 
         if ($user->update($data)) {
+            if ($this->rightsInstalled) {
+                $user->syncRights($data);
+            }
             return redirect()->route('user.index')->with('laralert', [[
                 'type' => 'success',
                 'content' => 'User has been updated successfully.'

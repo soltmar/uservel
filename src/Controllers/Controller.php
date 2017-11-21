@@ -18,18 +18,28 @@ if (class_exists('\App\Http\Controllers\Controller')) {
 
     class Controller extends AppController
     {
-
+        use rightsInstalled;
     }
 } else if (class_exists('Illuminate\Routing\Controller')) {
 
     class Controller extends BaseController
     {
-
+        use rightsInstalled;
     }
 } else {
 
     class Controller
     {
+        use rightsInstalled;
+    }
+}
 
+trait rightsInstalled {
+
+    public $rightsInstalled = false;
+
+    public function __construct()
+    {
+        $this->rightsInstalled = class_exists('\Spatie\Permission\PermissionServiceProvider');
     }
 }

@@ -15,6 +15,8 @@ use Blade;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 use marsoltys\uservel\Console\SuperAdmin;
+use marsoltys\uservel\Policies\UserPolicy;
+use marsoltys\uservel\Providers\AuthServiceProvider;
 use View;
 
 class UservelServiceProvider extends ServiceProvider
@@ -29,6 +31,9 @@ class UservelServiceProvider extends ServiceProvider
         //Register Console Commands
         if ($this->app->runningInConsole()) {
             $this->commands($this->commands);
+            $this->publishes([
+                __DIR__.'/../resources/css' => public_path('vendor/marsoltys/uservel'),
+            ], 'public');
         }
 
         // Register Routes
@@ -50,7 +55,7 @@ class UservelServiceProvider extends ServiceProvider
         });
 
         //Checks if spatie/laravel-permissions package has been installed
-        Blade::if('permissions', function ($environment) {
+        Blade::if('permissions', function () {
             return class_exists('\Spatie\Permission\PermissionServiceProvider');
         });
     }
@@ -62,7 +67,7 @@ class UservelServiceProvider extends ServiceProvider
             __DIR__.'/../config/uservel.php', 'uservel'
         );
 
-        // Check if user have already defined 'User" facade
+        // Check if user have already defined 'User" facade/alias
         if (!class_exists('User')) {
             //If not register User alias pointing to User model
             $loader = \Illuminate\Foundation\AliasLoader::getInstance();
@@ -70,8 +75,11 @@ class UservelServiceProvider extends ServiceProvider
         }
 
         if (!is_subclass_of('User', Model::class)) {
-            throw new \UnexpectedValueException('Uservel requires "User" alias to be pointing to your eloquent user model');
+            throw new \UnexpectedValueException('Uservel requires "userModel" config property to be pointing to your eloquent user model');
         }
+
+        //Register Service Providers
+        $this->app->register(AuthServiceProvider::class);
 
     }
 
