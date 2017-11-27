@@ -119,7 +119,7 @@ class UserController extends Controller
             'password' => 'nullable',
             'confirm-password' => 'same:password',
             'roles' => 'nullable'.$this->rightsInstalled ? '|array' : '',
-            'permissions' => 'nullable'.$this->rightsInstalled ? '|array' : ''
+            'perms' => 'nullable'.$this->rightsInstalled ? '|array' : ''
         ]);
 
         if (empty($data['password'])) {

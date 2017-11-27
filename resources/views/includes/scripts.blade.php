@@ -56,7 +56,7 @@
                 .addClass(add)
                 .text(oposite.charAt(0).toUpperCase() + oposite.slice(1).toLowerCase())
                 .parent().appendTo(appendTo)
-                .find('input').attr('name', 'roles[]').val(val);
+                .find('input').attr('name', type + 's[]').val(val);
         });
     })
 </script>

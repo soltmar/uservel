@@ -83,7 +83,7 @@ if (!empty($user['id'])) {
                     @foreach($roles as $role)
                         <li class="list-group-item">{{ $role->name }}
                             <div class="btn btn-primary btn-xs assign" data-uservel-role="{{ $role->name }}">Assign</div>
-                            <input type="hidden" name="" class="role-{{ $role->name }}" value="{{ $role->name }}">
+                            <input type="hidden" name="roles[]" class="role-{{ $role->name }}" value="{{ $role->name }}">
                         </li>
                     @endforeach
                 </div>
@@ -94,9 +94,9 @@ if (!empty($user['id'])) {
                 <div class="list-group assign-perms-group">
                     @foreach($data->permissions as $perm)
                         <li class="list-group-item">
-                            {{ $perm }}
-                            <div class="btn btn-warning btn-xs revoke" data-uservel-perm="{{ $perm }}">Revoke</div>
-                            <input type="hidden" name="permissions[]" class="perm-{{ $perm }}" value="{{ $perm }}">
+                            {{ $perm->name }}
+                            <div class="btn btn-warning btn-xs revoke" data-uservel-perm="{{ $perm->name }}">Revoke</div>
+                            <input type="hidden" name="permissions[]" class="perm-{{ $perm->name }}" value="{{ $perm->name }}">
                         </li>
                     @endforeach
                 </div>
@@ -108,7 +108,7 @@ if (!empty($user['id'])) {
                     @foreach($permissions as $perm)
                         <li class="list-group-item">{{ $perm->name }}
                             <div class="btn btn-primary btn-xs assign" data-uservel-perm="{{ $perm->name }}">Assign</div>
-                            <input type="hidden" name="permissions[]" class="perm-{{ $perm->name }}" value="{{ $perm->name }}">
+                            <input type="hidden" name="perms[]" class="perm-{{ $perm->name }}" value="{{ $perm->name }}">
                         </li>
                     @endforeach
                 </div>

@@ -2,6 +2,7 @@
 
 namespace marsoltys\uservel\Traits;
 
+use Illuminate\Contracts\Auth\Access\Gate;
 use marsoltys\uservel\Exceptions\UnauthorizedException;
 
 if (trait_exists('\Spatie\Permission\Traits\HasRoles')) {
@@ -49,12 +50,17 @@ trait hasRights {
             $this->syncRoles($roles);
         }
 
-        if (!empty($rights['permissions'])) {
-            $perms = array_filter($rights['permissions']);
+        if (!empty($rights['perms'])) {
+            $perms = array_filter($rights['perms']);
             $this->syncPermissions($perms);
         }
 
         return $this;
+    }
+
+    public function can($ability, $arguments = [])
+    {
+        return app(Gate::class)->forUser($this)->check($ability, $arguments);
     }
 
 }
