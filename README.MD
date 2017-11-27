@@ -4,11 +4,11 @@
 
 #### Using Composer
 
-```comopser install marsoltys/uservel```
+```comopser install soltmar/uservel```
 
 Define User model class in uservel.php config file
 
-change user provider class in auth.php conifg to: 
+change user provider class in auth.php conifg to:
 
 ```
 'providers' => [
