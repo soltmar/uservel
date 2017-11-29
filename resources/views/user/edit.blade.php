@@ -58,62 +58,75 @@ if (!empty($user['id'])) {
             </div>
         </div>
 
+        {{-- Visible only if permissions module is installed and have parmission to assign roles / permissions --}}
+
         @permissions
+        @can('Assign Rights')
 
-        <h3>Permissions</h3>
+            <h3>Permissions</h3>
 
-        <div class="row uservel-permissions">
-            <div class="col-md-3">
-                <div><u>Assigned Roles</u></div>
-                <br>
-                <div class="list-group assign-roles-group">
-                    @foreach($data->getRoleNames() as $role)
-                        <li class="list-group-item">
-                            {{ $role }}
-                            <div class="btn btn-warning btn-xs revoke" data-uservel-role="{{ $role }}">Revoke</div>
-                            <input type="hidden" name="roles[]" class="role-{{ $role }}" value="{{ $role }}">
-                        </li>
-                    @endforeach
+            <div class="row uservel-permissions">
+                <div class="col-md-3">
+                    <div><u>Assigned Roles</u></div>
+                    <br>
+                    <div class="list-group assign-roles-group">
+                        @foreach($data->getRoleNames() as $role)
+                            <li class="list-group-item">
+                                {{ $role }}
+                                <div class="btn btn-warning btn-xs revoke" data-uservel-role="{{ $role }}">Revoke</div>
+                                <input type="hidden" name="roles[]" class="role-{{ $role }}" value="{{ $role }}">
+                            </li>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div><u>Available Roles</u></div>
+                    <br>
+                    <div class="list-group revoke-roles-group">
+                        @foreach($roles as $role)
+                            <li class="list-group-item">{{ $role->name }}
+                                <div class="btn btn-primary btn-xs assign" data-uservel-role="{{ $role->name }}">
+                                    Assign
+                                </div>
+                                <input type="hidden" name="roles[]" class="role-{{ $role->name }}"
+                                       value="{{ $role->name }}">
+                            </li>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div><u>Assigned Permissions</u></div>
+                    <br>
+                    <div class="list-group assign-perms-group">
+                        @foreach($data->permissions as $perm)
+                            <li class="list-group-item">
+                                {{ $perm->name }}
+                                <div class="btn btn-warning btn-xs revoke" data-uservel-perm="{{ $perm->name }}">
+                                    Revoke
+                                </div>
+                                <input type="hidden" name="permissions[]" class="perm-{{ $perm->name }}"
+                                       value="{{ $perm->name }}">
+                            </li>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div><u>Available Permissions</u></div>
+                    <br>
+                    <div class="list-group revoke-perms-group">
+                        @foreach($permissions as $perm)
+                            <li class="list-group-item">{{ $perm->name }}
+                                <div class="btn btn-primary btn-xs assign" data-uservel-perm="{{ $perm->name }}">
+                                    Assign
+                                </div>
+                                <input type="hidden" name="perms[]" class="perm-{{ $perm->name }}"
+                                       value="{{ $perm->name }}">
+                            </li>
+                        @endforeach
+                    </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div><u>Available Roles</u></div>
-                <br>
-                <div class="list-group revoke-roles-group">
-                    @foreach($roles as $role)
-                        <li class="list-group-item">{{ $role->name }}
-                            <div class="btn btn-primary btn-xs assign" data-uservel-role="{{ $role->name }}">Assign</div>
-                            <input type="hidden" name="roles[]" class="role-{{ $role->name }}" value="{{ $role->name }}">
-                        </li>
-                    @endforeach
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div><u>Assigned Permissions</u></div>
-                <br>
-                <div class="list-group assign-perms-group">
-                    @foreach($data->permissions as $perm)
-                        <li class="list-group-item">
-                            {{ $perm->name }}
-                            <div class="btn btn-warning btn-xs revoke" data-uservel-perm="{{ $perm->name }}">Revoke</div>
-                            <input type="hidden" name="permissions[]" class="perm-{{ $perm->name }}" value="{{ $perm->name }}">
-                        </li>
-                    @endforeach
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div><u>Available Permissions</u></div>
-                <br>
-                <div class="list-group revoke-perms-group">
-                    @foreach($permissions as $perm)
-                        <li class="list-group-item">{{ $perm->name }}
-                            <div class="btn btn-primary btn-xs assign" data-uservel-perm="{{ $perm->name }}">Assign</div>
-                            <input type="hidden" name="perms[]" class="perm-{{ $perm->name }}" value="{{ $perm->name }}">
-                        </li>
-                    @endforeach
-                </div>
-            </div>
-        </div>
+        @endcan
         @endpermissions
 
         <button type="submit" class="btn btn-primary">Submit</button>
