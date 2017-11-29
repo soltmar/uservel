@@ -15,5 +15,13 @@ return [
     // Properties displayed in user list table
     'displayProperties' => [
         'name', 'email', 'created_at', 'updated_at'
-    ]
+    ],
+
+    /**
+     * Any checked non-existing permissions will be auto-added to database
+     * Due to querying every single check this should be used in development only ,
+     * when creating permissions and roles hierarchy
+     */
+
+    'autoadd' => true
 ];

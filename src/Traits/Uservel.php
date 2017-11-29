@@ -2,8 +2,10 @@
 
 namespace marsoltys\uservel\Traits;
 
+use Auth;
 use Illuminate\Contracts\Auth\Access\Gate;
 use marsoltys\uservel\Exceptions\UnauthorizedException;
+use Spatie\Permission\Models\Permission;
 
 if (trait_exists('\Spatie\Permission\Traits\HasRoles')) {
     trait Uservel
@@ -29,7 +31,8 @@ trait isSUperAdmin
     protected $guard_name = 'web';
 }
 
-trait hasRights {
+trait hasRights
+{
 
     /**
      * Function that syncs user roles and permissions at once. Usefull when updating user data through form.
@@ -41,18 +44,17 @@ trait hasRights {
     {
         $user = \Auth::user();
 
-        if ($user->can('syncRights', $user)){
-            echo 'yay';
-        }
+        if ($user->can('Assign Rights')) {
 
-        if (!empty($rights['roles'])) {
-            $roles = array_filter($rights['roles']);
-            $this->syncRoles($roles);
-        }
+            if (!empty($rights['roles'])) {
+                $roles = array_filter($rights['roles']);
+                $this->syncRoles($roles);
+            }
 
-        if (!empty($rights['perms'])) {
-            $perms = array_filter($rights['perms']);
-            $this->syncPermissions($perms);
+            if (!empty($rights['perms'])) {
+                $perms = array_filter($rights['perms']);
+                $this->syncPermissions($perms);
+            }
         }
 
         return $this;
@@ -60,6 +62,9 @@ trait hasRights {
 
     public function can($ability, $arguments = [])
     {
+        if (config('uservel.autoadd')) {
+            Permission::firstOrCreate(['name' => $ability, 'guard_name' => Auth::guard()]);
+        }
         return app(Gate::class)->forUser($this)->check($ability, $arguments);
     }
 
