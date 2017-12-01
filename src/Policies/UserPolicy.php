@@ -9,7 +9,7 @@ use marsoltys\uservel\Traits\handlesSuperAdmin;
 class UserPolicy
 {
     use HandlesAuthorization;
-    use handlesSuperAdmin;
+   // use handlesSuperAdmin;
 
     /**
      * Determine whether the user can view the model.
@@ -18,7 +18,7 @@ class UserPolicy
      * @param  \User  $model
      * @return mixed
      */
-    public function view(User $user, User $model)
+    public function view(\User $user, \User $model)
     {
         //
     }
@@ -29,9 +29,9 @@ class UserPolicy
      * @param  \User  $user
      * @return mixed
      */
-    public function create(User $user)
+    public function create(\User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -43,7 +43,7 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        //
+        return true;
     }
 
     /**

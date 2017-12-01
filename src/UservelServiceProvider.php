@@ -13,6 +13,8 @@ namespace marsoltys\uservel;
 
 use Blade;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use marsoltys\uservel\Console\SuperAdmin;
 use marsoltys\uservel\Policies\UserPolicy;
@@ -26,36 +28,46 @@ class UservelServiceProvider extends ServiceProvider
     ];
 
 
-    public function boot()
+    public function boot(Router $router)
     {
+
+        // Register policy
+        Gate::policy(\User::class, UserPolicy::class);
+
+        // Register Spatie Middlewares if package exists
+        if (class_exists(\Spatie\Permission\Middlewares\RoleMiddleware::class)) {
+            $router->aliasMiddleware('role', \Spatie\Permission\Middlewares\RoleMiddleware::class);
+            $router->aliasMiddleware('permission', \Spatie\Permission\Middlewares\PermissionMiddleware::class);
+        }
+
         //Register Console Commands
         if ($this->app->runningInConsole()) {
             $this->commands($this->commands);
             $this->publishes([
-                __DIR__.'/../resources/css' => public_path('vendor/marsoltys/uservel'),
+                __DIR__ . '/../resources/css' => public_path('vendor/marsoltys/uservel'),
             ], 'public');
         }
 
         // Register Routes
-        $this->loadRoutesFrom(__DIR__.'/routes.php');
+        $this->loadRoutesFrom(__DIR__ . '/routes.php');
 
         // Load Views
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'uservel');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'uservel');
 
         // Load Migrations
-        $this->loadMigrationsFrom(__DIR__.'/../migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../migrations');
 
         View::composer('uservel::includes.alert', function ($view) {
             $alerts = session('laralert');
             $view->with('alerts', $alerts);
         });
 
-        Blade::if('notempty', function ($item) {
+        Blade::if ('notempty', function ($item) {
             return !empty($item);
         });
 
         //Checks if spatie/laravel-permissions package has been installed
-        Blade::if('permissions', function () {
+        Blade::if ('permissions', function () {
             return class_exists('\Spatie\Permission\PermissionServiceProvider');
         });
     }
@@ -64,7 +76,7 @@ class UservelServiceProvider extends ServiceProvider
     {
 
         $this->mergeConfigFrom(
-            __DIR__.'/../config/uservel.php', 'uservel'
+            __DIR__ . '/../config/uservel.php', 'uservel'
         );
 
         // Check if user have already defined 'User" facade/alias

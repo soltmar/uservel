@@ -1,9 +1,12 @@
 .uservel-permissions > div {
-  border-right: 1px solid #3c3c3c; }
+  border-right: 1px solid #e3e3e3; }
   .uservel-permissions > div:last-child {
     border-right: none; }
 .uservel-permissions .list-group-item {
   display: flex;
   justify-content: space-between; }
+
+.uservel-list .actions {
+  text-align: center; }
 
 /*# sourceMappingURL=main.css.map */

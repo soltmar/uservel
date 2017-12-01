@@ -2,6 +2,7 @@
 
 namespace marsoltys\uservel\Traits;
 
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
 
 /**
@@ -21,20 +22,16 @@ trait hasRights
      */
     public function syncRights($rights)
     {
-        $user = \Auth::user();
-
-        if ($user->can('Assign Rights')) {
-
-            if (!empty($rights['roles'])) {
+        $user = Auth::user();
+            if (!empty($rights['roles']) && $user->can('User Assign Roles')) {
                 $roles = array_filter($rights['roles']);
                 $this->syncRoles($roles);
             }
 
-            if (!empty($rights['perms'])) {
+            if (!empty($rights['perms']) && $user->can('User Assign Permissions')) {
                 $perms = array_filter($rights['perms']);
                 $this->syncPermissions($perms);
             }
-        }
 
         return $this;
     }

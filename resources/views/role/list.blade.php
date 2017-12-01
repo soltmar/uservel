@@ -1,8 +1,11 @@
 @extends('uservel::wrapper')
 
+@can('Role Create')
 @section('usernav.action')
-    <a href="{{ route('role.create') }}" class="btn btn-success pull-right">Add Role</a>
+    <a href="{{ route('role.create') }}" class="btn btn-success pull-right"><i class=" glyphicon glyphicon-plus"></i>
+        Add Role</a>
 @endsection
+@endcan
 
 @section('usercontent')
     <table class="table table-hover uservel-list">
@@ -12,7 +15,10 @@
             <th>Role name</th>
             <th>Users assigned</th>
             <th>Permissions</th>
-            <th>Actions</th>
+
+            @if(Auth::user()->can('Role Edit') || Auth::user()->can('Role Delete'))
+                <th class="actions">Actions</th>
+            @endif
         </tr>
         </thead>
         <tbody>
@@ -22,16 +28,23 @@
                 <td>{{ $item->name }}</td>
                 <td>{{ $item->users->count() }}</td>
                 <td>{{ $item->permissions->count() }}</td>
-                <td>
-                    <a href="{{ route('role.edit', ['role' => $item->id]) }}" class="text-success">
-                        <i class="fa fa-pencil" aria-hidden="true" data-uservel-id="{{ $item->id }}"
-                           title="edit"></i>
-                    </a>
-                    &nbsp;&nbsp;
-                    <a href="{{ route('role.destroy', ['role' => $item->id]) }}" class="text-danger delete">
-                        <i class="fa fa-trash" aria-hidden="true" title="delete"></i>
-                    </a>
-                </td>
+
+                @if(Auth::user()->can('Role Edit') || Auth::user()->can('Role Delete'))
+                    <td class="actions">
+                        @can('Role Edit')
+                            <a href="{{ route('role.edit', ['role' => $item->id]) }}" class="btn btn-primary btn-xs">
+                                <i class="glyphicon glyphicon-pencil" aria-hidden="true" title="edit"></i> Edit
+                            </a>
+                        @endcan
+                        &nbsp;&nbsp;
+                        @can('Role Delete')
+                            <a href="{{ route('role.destroy', ['role' => $item->id]) }}"
+                               class="btn btn-danger delete btn-xs">
+                                <i class="glyphicon glyphicon-remove" aria-hidden="true" title="delete"></i> Remove
+                            </a>
+                        @endcan
+                    </td>
+                @endif
             </tr>
         @endforeach
         </tbody>

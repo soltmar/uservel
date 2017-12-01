@@ -34,8 +34,9 @@ class UserController extends Controller
     public function create()
     {
         return view('uservel::user.edit', [
-            'title' => 'Create User',
-            'roles' => Role::all()
+            'title'       => 'Create User',
+            'roles'       => Role::all(),
+            'permissions' => Permission::all()
         ]);
     }
 
@@ -48,10 +49,10 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'username' => 'required|unique:users|max:255',
-            'name' => 'required|unique:users|max:255',
-            'email' => 'required|email',
-            'password' => 'required',
+            'username'         => 'required|unique:users|max:255',
+            'name'             => 'required|unique:users|max:255',
+            'email'            => 'required|email',
+            'password'         => 'required',
             'confirm-password' => 'same:password'
         ]);
 
@@ -59,13 +60,13 @@ class UserController extends Controller
 
         if (User::create($data)) {
             return redirect()->route('user.index')->with('laralert', [[
-                'type' => 'success',
+                'type'    => 'success',
                 'content' => 'User has been created successfully.'
             ]]);
         }
 
         return redirect()->route('user.index')->with('laralert', [[
-            'type' => 'error',
+            'type'    => 'error',
             'content' => "Error - User hasn't been created!"
         ]]);
     }
@@ -94,11 +95,11 @@ class UserController extends Controller
         $permissions = Permission::all();
 
         return view('uservel::user.edit', [
-            'user'=>$user,
-            'roles' => $roles->diff($user->roles),
+            'user'        => $user,
+            'roles'       => $roles->diff($user->roles),
             'permissions' => $permissions->diff($user->permissions),
-            'title' => 'Update '. $user->name
-            ]);
+            'title'       => 'Update ' . $user->name
+        ]);
     }
 
     /**
@@ -113,13 +114,13 @@ class UserController extends Controller
         $user = User::findOrFail($id);
 
         $data = $request->validate([
-            'username' => 'required|max:255|unique:users,username,'.$user->id,
-            'name' => 'required|max:255',
-            'email' => 'required|email|unique:users,email,'.$user->id,
-            'password' => 'nullable',
+            'username'         => 'required|max:255|unique:users,username,' . $user->id,
+            'name'             => 'required|max:255',
+            'email'            => 'required|email|unique:users,email,' . $user->id,
+            'password'         => 'nullable',
             'confirm-password' => 'same:password',
-            'roles' => 'nullable'.$this->rightsInstalled ? '|array' : '',
-            'perms' => 'nullable'.$this->rightsInstalled ? '|array' : ''
+            'roles'            => 'nullable' . $this->rightsInstalled ? '|array' : '',
+            'perms'            => 'nullable' . $this->rightsInstalled ? '|array' : ''
         ]);
 
         if (empty($data['password'])) {
@@ -133,13 +134,13 @@ class UserController extends Controller
                 $user->syncRights($data);
             }
             return redirect()->route('user.index')->with('laralert', [[
-                'type' => 'success',
+                'type'    => 'success',
                 'content' => 'User has been updated successfully.'
             ]]);
         }
 
         return redirect()->route('user.index')->with('laralert', [[
-            'type' => 'error',
+            'type'    => 'error',
             'content' => "Error - User hasn't been updated!"
         ]]);
     }
@@ -154,13 +155,13 @@ class UserController extends Controller
     {
         if (User::destroy($id)) {
             return redirect()->route('user.index')->with('laralert', [[
-                'type' => 'success',
+                'type'    => 'success',
                 'content' => 'User has been deleted.'
             ]]);
         }
 
         return redirect()->route('user.index')->with('laralert', [[
-            'type' => 'error',
+            'type'    => 'error',
             'content' => "Error - User hasn't been deleted!"
         ]]);
     }
