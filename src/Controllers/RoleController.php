@@ -3,6 +3,7 @@
 namespace marsoltys\uservel\Controllers;
 
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
@@ -15,7 +16,7 @@ class RoleController extends Controller
     public function index()
     {
         $roles = Role::all();
-        return view('uservel::role.list',[
+        return view('uservel::role.list', [
             'roles' => $roles
         ]);
     }
@@ -35,7 +36,7 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -51,7 +52,7 @@ class RoleController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -62,23 +63,24 @@ class RoleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         $role = Role::findOrFail($id);
         return view('uservel::role.form', [
-            'role'=>$role,
-            'title' => "Update {$role->name} role"
+            'role'        => $role,
+            'permissions' => Permission::all(),
+            'title'       => "Update {$role->name} role"
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -86,31 +88,39 @@ class RoleController extends Controller
         $role = Role::findOrFail($id);
 
         $data = $request->validate([
-            'name' => 'required|max:255|unique:roles,name,'.$role->id,
+            'name'  => 'required|max:255|unique:roles,name,' . $role->id,
+            'perms' => 'nullable' . $this->rightsInstalled ? '|array' : ''
         ]);
 
-        if ($role->update($data)) {
-            return redirect()->route('role.index');
+        if ($role->update(['name' => $data['name']])) {
+            if ($this->rightsInstalled) {
+                $role->syncPermissions($data['perms']);
+            }
+
+            return redirect()->route('role.index')->with('laralert', [[
+                'type'    => 'success',
+                'content' => 'User has been updated successfully.'
+            ]]);
         }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, $id)
     {
         if (Role::destroy($id)) {
             $request->session()->flash('laralert', [[
-                'type' => 'success',
+                'type'    => 'success',
                 'content' => 'Role has been deleted.'
             ]]);
         }
 
         $request->session()->flash('laralert', [[
-            'type' => 'error',
+            'type'    => 'error',
             'content' => "Error - Role hasn't been deleted!"
         ]]);
     }
