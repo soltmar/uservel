@@ -40,8 +40,7 @@ if (!empty($role['name'])) {
                                          data-uservel-perm="{{ $perm->name }}">
                                         Revoke
                                     </div>
-                                    <input type="hidden" name="permissions[]" class="perm-{{ $perm->name }}"
-                                           value="{{ $perm->name }}">
+                                    <input type="hidden" name="perms[]" value="{{ $perm->name }}">
                                 </li>
                             @endforeach
                         </div>
@@ -56,8 +55,7 @@ if (!empty($role['name'])) {
                                          data-uservel-perm="{{ $perm->name }}">
                                         Assign
                                     </div>
-                                    <input type="hidden" class="perm-{{ $perm->name }}"
-                                           value="{{ $perm->name }}">
+                                    <input type="hidden" value="{{ $perm->name }}">
                                 </li>
                             @endforeach
                         </div>

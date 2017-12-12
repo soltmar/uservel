@@ -48,6 +48,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $request = $this->handleEmptyRight($request);
         $data = $request->validate([
             'username'         => 'required|unique:users|max:255',
             'name'             => 'required|unique:users|max:255',
@@ -91,13 +92,13 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::where('id', $id)->with(['roles', 'permissions'])->firstOrFail();
-        $roles = Role::all();
-        $permissions = Permission::all();
+        $roles = Role::whereNotIn('id', $user->roles->pluck('id'))->get();
+        $permissions = Permission::whereNotIn('id', $user->permissions->pluck('id'))->get();
 
         return view('uservel::user.edit', [
             'user'        => $user,
-            'roles'       => $roles->diff($user->roles),
-            'permissions' => $permissions->diff($user->permissions),
+            'roles'       => $roles,
+            'permissions' => $permissions,
             'title'       => 'Update ' . $user->name
         ]);
     }
@@ -111,6 +112,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request = $this->handleEmptyRight($request);
         $user = User::findOrFail($id);
 
         $data = $request->validate([

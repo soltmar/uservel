@@ -8,6 +8,7 @@ use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -41,9 +42,13 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
+
+        $request = $this->handleEmptyRight($request);
+
         $data = $request->validate([
             'name' => 'required|unique:roles|max:255'
         ]);
+
         if (Role::create($data)) {
             return redirect()->route('role.index');
         }
@@ -69,9 +74,11 @@ class RoleController extends Controller
     public function edit($id)
     {
         $role = Role::findOrFail($id);
+        $permissions = $role->permissions->pluck('id');
+
         return view('uservel::role.form', [
             'role'        => $role,
-            'permissions' => Permission::all(),
+            'permissions' => Permission::whereNotIn('id', $permissions)->get(),
             'title'       => "Update {$role->name} role"
         ]);
     }
@@ -85,6 +92,8 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request = $this->handleEmptyRight($request);
+
         $role = Role::findOrFail($id);
 
         $data = $request->validate([

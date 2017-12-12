@@ -73,13 +73,13 @@ if (!empty($user['id'])) {
                             <div><u>Assigned Roles</u></div>
                             <br>
                             <div class="list-group assign-roles-group">
+                                <input type="hidden" name="roles[]" value="">
                                 @foreach($data->getRoleNames() as $role)
                                     <li class="list-group-item"><span>{{ $role }}</span>
                                         <div class="btn btn-warning btn-xs revoke" data-uservel-role="{{ $role }}">
                                             Revoke
                                         </div>
-                                        <input type="hidden" name="roles[]" class="role-{{ $role }}"
-                                               value="{{ $role }}">
+                                        <input type="hidden" name="roles[]" value="{{ $role }}">
                                     </li>
                                 @endforeach
                             </div>
@@ -90,12 +90,10 @@ if (!empty($user['id'])) {
                             <div class="list-group revoke-roles-group">
                                 @foreach($roles as $role)
                                     <li class="list-group-item"><span>{{ $role->name }}</span>
-                                        <div class="btn btn-primary btn-xs assign"
-                                             data-uservel-role="{{ $role->name }}">
+                                        <div class="btn btn-primary btn-xs assign" data-uservel-role="{{ $role->name }}">
                                             Assign
                                         </div>
-                                        <input type="hidden" class="role-{{ $role->name }}"
-                                               value="{{ $role->name }}">
+                                        <input type="hidden" value="{{ $role->name }}">
                                     </li>
                                 @endforeach
                             </div>
@@ -110,14 +108,14 @@ if (!empty($user['id'])) {
                             <div><u>Assigned Permissions</u></div>
                             <br>
                             <div class="list-group assign-perms-group">
+                                <input type="hidden" name="perms[]" value="">
                                 @foreach($data->permissions as $perm)
                                     <li class="list-group-item"><span>{{ $perm->name }}</span>
                                         <div class="btn btn-warning btn-xs revoke"
                                              data-uservel-perm="{{ $perm->name }}">
                                             Revoke
                                         </div>
-                                        <input type="hidden" name="permissions[]" class="perm-{{ $perm->name }}"
-                                               value="{{ $perm->name }}">
+                                        <input type="hidden" name="perms[]" value="{{ $perm->name }}">
                                     </li>
                                 @endforeach
                             </div>

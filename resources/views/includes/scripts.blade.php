@@ -32,8 +32,6 @@
             }
         });
 
-        $
-
         $('.uservel-permissions').on('click', '.assign,.revoke', function (e) {
             $this = $(this);
 
@@ -51,12 +49,13 @@
             }
             var val = action === 'assign' ? $this.attr('data-uservel-' + type) : '';
             var appendTo = '.' + action + '-' + type + 's-group';
+            var name = action === 'assign' ? type + 's[]' : '';
 
             $this.removeClass(remove)
                 .addClass(add)
                 .text(oposite.charAt(0).toUpperCase() + oposite.slice(1).toLowerCase())
                 .parent().appendTo(appendTo)
-                .find('input').attr('name', type + 's[]').val(val);
+                .find('input').attr('name', name).val(val);
         });
     })
 </script>
