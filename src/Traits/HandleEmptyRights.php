@@ -1,13 +1,4 @@
 <?php
-/**
- *
- * Project: ecmsl55
- * Date: 12/12/2017
- * @author Mariusz Soltys.
- * @version 1.0.0
- * @license All Rights Reserved
- *
- */
 
 namespace marsoltys\uservel\Traits;
 
