@@ -6,6 +6,12 @@ use Illuminate\Http\Request;
 
 trait HandleEmptyRights
 {
+    /**
+     * Handles case where all either roles or perms revoked
+     *
+     * @param Request $request
+     * @return Request
+     */
     public function handleEmptyRight(Request $request)
     {
         if (count($request->perms) > 1) {
