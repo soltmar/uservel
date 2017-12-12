@@ -1,12 +1,11 @@
-.uservel-permissions > div {
-  border-right: 1px solid #e3e3e3; }
-  .uservel-permissions > div:last-child {
-    border-right: none; }
-
 .uservel .list-group-item {
   display: flex;
   justify-content: space-between;
   align-items: center; }
+.uservel .border-right {
+  border-right: 1px solid #e3e3e3; }
+.uservel .border-left {
+  border-left: 1px solid #e3e3e3; }
 
 .uservel-list .actions {
   text-align: center; }

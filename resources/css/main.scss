@@ -1,16 +1,15 @@
-.uservel-permissions {
-  > div {
-    border-right: 1px solid #e3e3e3;
-    &:last-child {
-      border-right: none
-    }
-  }
-}
+
 .uservel {
   .list-group-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+  .border-right {
+    border-right: 1px solid #e3e3e3;
+  }
+  .border-left {
+    border-left: 1px solid #e3e3e3;
   }
 }
 
