@@ -108,7 +108,7 @@ class RoleController extends Controller
 
             return redirect()->route('role.index')->with('laralert', [[
                 'type'    => 'success',
-                'content' => 'User has been updated successfully.'
+                'content' => 'Role has been updated successfully.'
             ]]);
         }
     }
@@ -116,8 +116,9 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param Request $request
      * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function destroy(Request $request, $id)
     {
