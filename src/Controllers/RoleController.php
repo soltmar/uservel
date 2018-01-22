@@ -16,7 +16,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::all();
+        $roles = Role::orderBy('name')->get();
         return view('uservel::role.list', [
             'roles' => $roles
         ]);
@@ -30,7 +30,8 @@ class RoleController extends Controller
     public function create()
     {
         return view('uservel::role.form', [
-            'title' => 'Create Role'
+            'title' => 'Create Role',
+            'permissions' => Permission::all()
         ]);
     }
 

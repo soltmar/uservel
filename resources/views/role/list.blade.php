@@ -1,6 +1,6 @@
 @extends('uservel::wrapper')
 
-@can('Role Create')
+@can('Role.Create')
 @section('usernav.action')
     <a href="{{ route('role.create') }}" class="btn btn-success pull-right"><i class=" glyphicon glyphicon-plus"></i>
         Add Role</a>
@@ -16,7 +16,7 @@
             <th>Users assigned</th>
             <th>Permissions</th>
 
-            @if(Auth::user()->can('Role Edit') || Auth::user()->can('Role Delete'))
+            @if(Auth::user()->can('Role.Edit') || Auth::user()->can('Role.Delete'))
                 <th class="actions">Actions</th>
             @endif
         </tr>
@@ -29,15 +29,15 @@
                 <td>{{ $item->users->count() }}</td>
                 <td>{{ $item->permissions->count() }}</td>
 
-                @if(Auth::user()->can('Role Edit') || Auth::user()->can('Role Delete'))
+                @if(Auth::user()->can('Role.Edit') || Auth::user()->can('Role.Delete'))
                     <td class="actions">
-                        @can('Role Edit')
+                        @can('Role.Edit')
                             <a href="{{ route('role.edit', ['role' => $item->id]) }}" class="btn btn-primary btn-xs">
                                 <i class="glyphicon glyphicon-pencil" aria-hidden="true" title="edit"></i> Edit
                             </a>
                         @endcan
                         &nbsp;&nbsp;
-                        @can('Role Delete')
+                        @can('Role.Delete')
                             <a href="{{ route('role.destroy', ['role' => $item->id]) }}"
                                class="btn btn-danger delete btn-xs">
                                 <i class="glyphicon glyphicon-remove" aria-hidden="true" title="delete"></i> Remove

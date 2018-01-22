@@ -66,7 +66,7 @@ if (!empty($user['id'])) {
         </h3>
 
         <div class="row uservel-permissions">
-            @can('User Assign Roles')
+            @can('User.Roles.Assign')
                 <div class="col-md-6">
                     <div class="row">
                         <div class="col-md-6">
@@ -101,7 +101,7 @@ if (!empty($user['id'])) {
                     </div>
                 </div>
             @endcan
-            @can('User Assign Permissions')
+            @can('User.Permissions.Assign')
                 <div class="col-md-6">
                     <div class="row">
                         <div class="col-md-6">

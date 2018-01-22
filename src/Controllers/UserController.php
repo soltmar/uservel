@@ -19,7 +19,7 @@ class UserController extends Controller
     {
         $select = config('uservel.displayProperties');
         $select[] = 'id';
-        $users = \User::select($select)->get();
+        $users = \User::select($select)->orderBy('name')->get();
         return view('uservel::user.list')->with([
             'user'  => Auth::user(),
             'users' => $users
@@ -33,7 +33,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('uservel::user.edit', [
+        return view('uservel::user.form', [
             'title'       => 'Create User',
             'roles'       => Role::all(),
             'permissions' => Permission::all()
@@ -95,7 +95,7 @@ class UserController extends Controller
         $roles = Role::whereNotIn('id', $user->roles->pluck('id'))->get();
         $permissions = Permission::whereNotIn('id', $user->permissions->pluck('id'))->get();
 
-        return view('uservel::user.edit', [
+        return view('uservel::user.form', [
             'user'        => $user,
             'roles'       => $roles,
             'permissions' => $permissions,

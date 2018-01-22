@@ -23,12 +23,12 @@ trait hasRights
     public function syncRights($rights)
     {
         $user = Auth::user();
-            if (!empty($rights['roles']) && $user->can('User Assign Roles')) {
+            if (!empty($rights['roles']) && $user->can('User.Roles.Assign')) {
                 $roles = array_filter($rights['roles']);
                 $this->syncRoles($roles);
             }
 
-            if (!empty($rights['perms']) && $user->can('User Assign Permissions')) {
+            if (!empty($rights['perms']) && $user->can('User.Permissions.Assign')) {
                 $perms = array_filter($rights['perms']);
                 $this->syncPermissions($perms);
             }

@@ -1,6 +1,6 @@
 @extends('uservel::wrapper')
 
-@can('User Create')
+@can('User.Create')
 @section('usernav.action')
     <a href="{{ route('user.create') }}" class="btn btn-success pull-right"><i class=" glyphicon glyphicon-plus"></i>
         New User</a>
@@ -15,7 +15,7 @@
             @foreach(config('uservel.displayProperties') as $heading)
                 <th>{{ $heading }}</th>
             @endforeach
-            @if(Auth::user()->can('User Edit') || Auth::user()->can('User Delete'))
+            @if(Auth::user()->can('User.Edit') || Auth::user()->can('User.Delete'))
                 <th class="actions">Actions</th>
             @endif
         </tr>
@@ -28,14 +28,14 @@
                     <td>{{ $item->$property }}</td>
                 @endforeach
 
-                @if(Auth::user()->can('User Edit') || Auth::user()->can('User Delete'))
+                @if(Auth::user()->can('User.Edit') || Auth::user()->can('User.Delete'))
                     <td class="actions">
-                        @can('User Edit')
+                        @can('User.Edit')
                             <a href="{{ route('user.edit', ['user' => $item->id]) }}" class="btn btn-primary btn-xs">
                                 <i class="glyphicon glyphicon-pencil" aria-hidden="true" title="edit"></i> Edit
                             </a>
                         @endcan
-                        @can('User Delete')
+                        @can('User.Delete')
                             &nbsp;&nbsp;
                             <a href="{{ route('user.destroy', ['user' => $item->id]) }}"
                                class="btn btn-danger delete btn-xs">
