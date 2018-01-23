@@ -10,7 +10,7 @@ use Spatie\Permission\Models\Permission;
  *
  * @package marsoltys\uservel\Traits
  */
-trait hasRights
+trait SpatiePermissions
 {
 
     /**

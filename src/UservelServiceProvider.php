@@ -12,11 +12,14 @@
 namespace marsoltys\uservel;
 
 use Blade;
+use Illuminate\Contracts\Auth\Access\Gate;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Routing\Router;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use marsoltys\uservel\Console\SuperAdmin;
+use marsoltys\uservel\Contracts\UserContract;
+use marsoltys\uservel\Exceptions\UnauthorizedException;
 use marsoltys\uservel\Policies\UserPolicy;
 use marsoltys\uservel\Providers\AuthServiceProvider;
 use View;
@@ -27,12 +30,14 @@ class UservelServiceProvider extends ServiceProvider
         SuperAdmin::class
     ];
 
-
-    public function boot(Router $router)
+    public function boot(Router $router, Gate $gate)
     {
+        $this->registerModelBindings();
+
+        $this->registerSuperAdmin($gate);
 
         // Register policy
-        Gate::policy(\User::class, UserPolicy::class);
+        $gate->policy(\User::class, UserPolicy::class);
 
         // Register Spatie Middlewares if package exists
         if (class_exists(\Spatie\Permission\Middlewares\RoleMiddleware::class)) {
@@ -93,6 +98,24 @@ class UservelServiceProvider extends ServiceProvider
         //Register Service Providers
         $this->app->register(AuthServiceProvider::class);
 
+    }
+
+    protected function registerModelBindings()
+    {
+        $model = config('uservel.model');
+
+        $this->app->bind(UserContract::class, $model);
+    }
+
+    protected function registerSuperAdmin(Gate $gate) {
+        $gate->before(function (Authenticatable $user, string $ability) {
+            try {
+                if (method_exists($user, 'isSuperAdmin')) {
+                    return $user->isSuperAdmin();
+                }
+            } catch (UnauthorizedException $e) {
+            }
+        });
     }
 
 }

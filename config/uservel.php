@@ -4,7 +4,7 @@ return [
     'middlewares' => ['web'],
 
     // User model class
-    'userModel' => \App\User::class,
+    'model' => \App\User::class,
 
     // Route prefix for uservel module
     'routePrefix'=> '',
