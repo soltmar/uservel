@@ -6,7 +6,7 @@
 
 namespace marsoltys\uservel\Traits;
 
-if (trait_exists('\Spatie\Permission\Traits')) {
+if (trait_exists('\Spatie\Permission\Traits\HasRoles')) {
 
     // If spatie/laravel-permissions has been installed
 
@@ -16,7 +16,7 @@ if (trait_exists('\Spatie\Permission\Traits')) {
             hasPermissionTo as public parentHasPermissionTo;
             SpatiePermissions::hasPermissionTo insteadof \Spatie\Permission\Traits\HasRoles;
         }
-        use isSuperAdmin;
+        use HasSuperAdmin;
         use SpatiePermissions;
     }
 } else {
@@ -25,6 +25,6 @@ if (trait_exists('\Spatie\Permission\Traits')) {
 
     trait Uservel
     {
-        use isSuperAdmin;
+        use HasSuperAdmin;
     }
 }

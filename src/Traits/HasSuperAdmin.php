@@ -7,7 +7,7 @@ namespace marsoltys\uservel\Traits;
  *
  * @package marsoltys\uservel\Traits
  */
-trait isSuperAdmin
+trait HasSuperAdmin
 {
     public function isSuperAdmin()
     {
