@@ -23,7 +23,7 @@ if (!empty($role['name'])) {
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{ $data['name'] }}">
-                    <span id="helpBlock" class="help-block">Changing name can seriously affect permissions.</span>
+                    <span id="helpBlock" class="help-block">Changing name can seriously affect application permissions.</span>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Submit</button>
@@ -33,7 +33,7 @@ if (!empty($role['name'])) {
                     <div class="col-md-6">
                         <div><u>Assigned Permissions</u></div>
                         <br>
-                        <div class="list-group assign-perms-group">
+                        <div class="list-group assign-perms-group perm-group">
                             @foreach($data->permissions as $perm)
                                 <li class="list-group-item"><span>{{ $perm->name }}</span>
                                     <div class="btn btn-warning btn-xs revoke"
@@ -48,7 +48,7 @@ if (!empty($role['name'])) {
                     <div class="col-md-6">
                         <div><u>Available Permissions</u></div>
                         <br>
-                        <div class="list-group revoke-perms-group">
+                        <div class="list-group revoke-perms-group perm-group">
                             @foreach($permissions as $perm)
                                 <li class="list-group-item"><span>{{ $perm->name }}</span>
                                     <div class="btn btn-primary btn-xs assign"

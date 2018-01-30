@@ -35,8 +35,8 @@ class UserController extends Controller
     {
         return view('uservel::user.form', [
             'title'       => 'Create User',
-            'roles'       => Role::all(),
-            'permissions' => Permission::all()
+            'roles'       => Role::orderBy('name')->get(),
+            'permissions' => Permission::orderBy('name')->get()
         ]);
     }
 
@@ -92,8 +92,8 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::where('id', $id)->with(['roles', 'permissions'])->firstOrFail();
-        $roles = Role::whereNotIn('id', $user->roles->pluck('id'))->get();
-        $permissions = Permission::whereNotIn('id', $user->permissions->pluck('id'))->get();
+        $roles = Role::whereNotIn('id', $user->roles->pluck('id'))->orderBy('name')->get();
+        $permissions = Permission::whereNotIn('id', $user->permissions->pluck('id'))->orderBy('name')->get();
 
         return view('uservel::user.form', [
             'user'        => $user,

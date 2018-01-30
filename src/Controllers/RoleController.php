@@ -3,6 +3,7 @@
 namespace marsoltys\uservel\Controllers;
 
 use Illuminate\Http\Request;
+use SCC\EndeavourCMS\Support\Permissions;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -16,6 +17,7 @@ class RoleController extends Controller
      */
     public function index()
     {
+        $this->authorize(Permissions::ROLE_VIEW);
         $roles = Role::orderBy('name')->get();
         return view('uservel::role.list', [
             'roles' => $roles
@@ -29,6 +31,7 @@ class RoleController extends Controller
      */
     public function create()
     {
+        $this->authorize(Permissions::ROLE_CREATE);
         return view('uservel::role.form', [
             'title' => 'Create Role',
             'permissions' => Permission::all()
@@ -43,7 +46,7 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-
+        $this->authorize(Permissions::ROLE_CREATE);
         $request = $this->handleEmptyRight($request);
 
         $data = $request->validate([
@@ -74,12 +77,13 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize(Permissions::ROLE_EDIT);
         $role = Role::findOrFail($id);
-        $permissions = $role->permissions->pluck('id');
+        $permissions = $role->permissions()->orderBy('name')->get()->pluck('id');
 
         return view('uservel::role.form', [
             'role'        => $role,
-            'permissions' => Permission::whereNotIn('id', $permissions)->get(),
+            'permissions' => Permission::whereNotIn('id', $permissions)->orderBy('name')->get(),
             'title'       => "Update {$role->name} role"
         ]);
     }
@@ -93,6 +97,7 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->authorize(Permissions::ROLE_EDIT);
         $request = $this->handleEmptyRight($request);
 
         $role = Role::findOrFail($id);
@@ -123,6 +128,7 @@ class RoleController extends Controller
      */
     public function destroy(Request $request, $id)
     {
+        $this->authorize(Permissions::ROLE_DELETE);
         if (Role::destroy($id)) {
             $request->session()->flash('laralert', [[
                 'type'    => 'success',

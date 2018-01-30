@@ -1,4 +1,3 @@
-`
 .uservel {
   .list-group-item {
     display: flex;
@@ -17,4 +16,9 @@
   .actions {
     text-align: center;
   }
+}
+
+.uservel-permissions .perm-group {
+  max-height: 370px;
+  overflow-x: auto;
 }

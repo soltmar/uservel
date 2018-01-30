@@ -66,13 +66,13 @@ if (!empty($user['id'])) {
         </h3>
 
         <div class="row uservel-permissions">
-            @can('User.Roles.Assign')
+            @can(\SCC\EndeavourCMS\Support\Permissions::USER_ROLE_ASSIGN)
                 <div class="col-md-6">
                     <div class="row">
                         <div class="col-md-6">
                             <div><u>Assigned Roles</u></div>
                             <br>
-                            <div class="list-group assign-roles-group">
+                            <div class="list-group assign-roles-group perm-group">
                                 <input type="hidden" name="roles[]" value="">
                                 @foreach($data->getRoleNames() as $role)
                                     <li class="list-group-item"><span>{{ $role }}</span>
@@ -87,7 +87,7 @@ if (!empty($user['id'])) {
                         <div class="col-md-6">
                             <div><u>Available Roles</u></div>
                             <br>
-                            <div class="list-group revoke-roles-group">
+                            <div class="list-group revoke-roles-group perm-group">
                                 @foreach($roles as $role)
                                     <li class="list-group-item"><span>{{ $role->name }}</span>
                                         <div class="btn btn-primary btn-xs assign" data-uservel-role="{{ $role->name }}">
@@ -101,13 +101,13 @@ if (!empty($user['id'])) {
                     </div>
                 </div>
             @endcan
-            @can('User.Permissions.Assign')
+            @can(\SCC\EndeavourCMS\Support\Permissions::USER_PERMISSIONS_ASSIGN)
                 <div class="col-md-6">
                     <div class="row">
                         <div class="col-md-6">
                             <div><u>Assigned Permissions</u></div>
                             <br>
-                            <div class="list-group assign-perms-group">
+                            <div class="list-group assign-perms-group perm-group">
                                 <input type="hidden" name="perms[]" value="">
                                 @foreach($data->permissions as $perm)
                                     <li class="list-group-item"><span>{{ $perm->name }}</span>
@@ -123,7 +123,7 @@ if (!empty($user['id'])) {
                         <div class="col-md-6">
                             <div><u>Available Permissions</u></div>
                             <br>
-                            <div class="list-group revoke-perms-group">
+                            <div class="list-group revoke-perms-group perm-group">
                                 @foreach($permissions as $perm)
                                     <li class="list-group-item"><span>{{ $perm->name }}</span>
                                         <div class="btn btn-primary btn-xs assign"
