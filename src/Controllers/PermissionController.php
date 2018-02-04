@@ -71,7 +71,7 @@ class PermissionController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize(Permissions::PERMISSION_EDIT);
+        $this->authorize(Permissions::PERMISSION_UPDATE);
         $permission = Permission::findOrFail($id);
         return view('uservel::permission.form', [
             'permission'=>$permission,
@@ -88,7 +88,7 @@ class PermissionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->authorize(Permissions::PERMISSION_EDIT);
+        $this->authorize(Permissions::PERMISSION_UPDATE);
         $permission = Permission::findOrFail($id);
 
         $data = $request->validate([
