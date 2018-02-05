@@ -15,7 +15,7 @@
             @foreach(config('uservel.displayProperties') as $heading)
                 <th>{{ $heading }}</th>
             @endforeach
-            @if(Auth::user()->can('User.Edit') || Auth::user()->can('User.Delete'))
+            @if(Auth::user()->can('User.Update') || Auth::user()->can('User.Delete'))
                 <th class="actions">Actions</th>
             @endif
         </tr>
@@ -23,14 +23,14 @@
         <tbody>
         @foreach($users as $item)
             <tr>
-                <th scope="row">{{  $loop->iteration }}</th>
+                <th scope="row" class="tbl-row-no"></th>
                 @foreach(config('uservel.displayProperties') as $property)
                     <td>{{ $item->$property }}</td>
                 @endforeach
 
-                @if(Auth::user()->can('User.Edit') || Auth::user()->can('User.Delete'))
+                @if(Auth::user()->can('User.Update') || Auth::user()->can('User.Delete'))
                     <td class="actions">
-                        @can('User.Edit')
+                        @can('User.Update')
                             <a href="{{ route('user.edit', ['user' => $item->id]) }}" class="btn btn-primary btn-xs">
                                 <i class="glyphicon glyphicon-pencil" aria-hidden="true" title="edit"></i> Edit
                             </a>

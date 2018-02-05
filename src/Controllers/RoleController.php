@@ -77,7 +77,7 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize(Permissions::ROLE_EDIT);
+        $this->authorize(Permissions::ROLE_UPDATE);
         $role = Role::findOrFail($id);
         $permissions = $role->permissions()->orderBy('name')->get()->pluck('id');
 
@@ -97,7 +97,7 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->authorize(Permissions::ROLE_EDIT);
+        $this->authorize(Permissions::ROLE_UPDATE);
         $request = $this->handleEmptyRight($request);
 
         $role = Role::findOrFail($id);

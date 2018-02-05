@@ -13,6 +13,12 @@
 }
 
 .uservel-list {
+  counter-reset: rowNumber;
+
+  .tbl-row-no:before {
+    counter-increment: rowNumber;
+    content: counter(rowNumber);
+  }
   .actions {
     text-align: center;
   }

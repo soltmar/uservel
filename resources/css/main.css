@@ -7,7 +7,16 @@
 .uservel .border-left {
   border-left: 1px solid #e3e3e3; }
 
-.uservel-list .actions {
-  text-align: center; }
+.uservel-list {
+  counter-reset: rowNumber; }
+  .uservel-list .tbl-row-no:before {
+    counter-increment: rowNumber;
+    content: counter(rowNumber); }
+  .uservel-list .actions {
+    text-align: center; }
+
+.uservel-permissions .perm-group {
+  max-height: 370px;
+  overflow-x: auto; }
 
 /*# sourceMappingURL=main.css.map */

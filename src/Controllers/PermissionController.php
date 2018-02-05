@@ -5,6 +5,7 @@ namespace marsoltys\uservel\Controllers;
 use Illuminate\Http\Request;
 use SCC\EndeavourCMS\Support\Permissions;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\PermissionRegistrar;
 
 class PermissionController extends Controller
 {
@@ -96,6 +97,7 @@ class PermissionController extends Controller
         ]);
 
         if ($permission->update($data)) {
+            app(PermissionRegistrar::class)->forgetCachedPermissions();
             return redirect()->route('permission.index');
         }
     }
@@ -108,17 +110,22 @@ class PermissionController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $this->authorize(Permissions::PERMISSION_DELE);
+        $this->authorize(Permissions::PERMISSION_DELETE);
         if (Permission::destroy($id)) {
             $request->session()->flash('laralert', [[
                 'type' => 'success',
                 'content' => 'permission has been deleted.'
             ]]);
+            app(PermissionRegistrar::class)->forgetCachedPermissions();
+
+            return redirect()->route('permission.index');
         }
 
         $request->session()->flash('laralert', [[
             'type' => 'error',
             'content' => "Error - Permission hasn't been deleted!"
         ]]);
+
+        return redirect()->route('permission.index');
     }
 }

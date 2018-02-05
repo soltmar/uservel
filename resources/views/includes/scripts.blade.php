@@ -21,13 +21,15 @@
         }
 
         $('.uservel .delete').on('click', function (e) {
+            var del_btn = $(this);
             e.preventDefault();
             if (confirm('Do you really want to delete this item?')) {
                 var link = this.href;
                 $.ajax({
                     method: 'DELETE',
-                    url: link,
-                    async: false
+                    url: link
+                }).done(function() {
+                    del_btn.parents('tr').remove();
                 });
             }
         });

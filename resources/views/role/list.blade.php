@@ -16,7 +16,7 @@
             <th>Users assigned</th>
             <th>Permissions</th>
 
-            @if(Auth::user()->can('Role.Edit') || Auth::user()->can('Role.Delete'))
+            @if(Auth::user()->can('Role.Update') || Auth::user()->can('Role.Delete'))
                 <th class="actions">Actions</th>
             @endif
         </tr>
@@ -24,14 +24,14 @@
         <tbody>
         @foreach($roles as $item)
             <tr>
-                <th scope="row">{{  $loop->iteration }}</th>
+                <th scope="row" class="tbl-row-no"></th>
                 <td>{{ $item->name }}</td>
                 <td>{{ $item->users->count() }}</td>
                 <td>{{ $item->permissions->count() }}</td>
 
-                @if(Auth::user()->can('Role.Edit') || Auth::user()->can('Role.Delete'))
+                @if(Auth::user()->can('Role.Update') || Auth::user()->can('Role.Delete'))
                     <td class="actions">
-                        @can('Role.Edit')
+                        @can('Role.Update')
                             <a href="{{ route('role.edit', ['role' => $item->id]) }}" class="btn btn-primary btn-xs">
                                 <i class="glyphicon glyphicon-pencil" aria-hidden="true" title="edit"></i> Edit
                             </a>
