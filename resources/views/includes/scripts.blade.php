@@ -28,8 +28,8 @@
                 $.ajax({
                     method: 'DELETE',
                     url: link
-                }).done(function() {
-                    del_btn.parents('tr').remove();
+                }).always(function() {
+                    location.reload();
                 });
             }
         });

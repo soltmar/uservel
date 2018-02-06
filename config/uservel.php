@@ -16,8 +16,10 @@ return [
 
     // Properties displayed in user list table
     'displayProperties' => [
-        'name', 'email', 'created_at', 'updated_at'
+        'name', 'email', 'roles', 'created_at', 'updated_at'
     ],
+
+    'showRoles' => true,
 
     /**
      * Any checked non-existing permissions will be auto-added to database

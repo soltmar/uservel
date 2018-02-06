@@ -25,7 +25,16 @@
             <tr>
                 <th scope="row" class="tbl-row-no"></th>
                 @foreach(config('uservel.displayProperties') as $property)
-                    <td>{{ $item->$property }}</td>
+                    @if (config('uservel.showRoles') && $property == 'roles')
+                        <td>
+                            @if ($item->isSuperAdmin())
+                                <i class="fas fa-user-circle" title="Superadmin"></i>
+                            @endif
+                                {{ optional($item->roles)->implode('name', ', ') }}
+                        </td>
+                    @else
+                        <td>{{ $item->$property }}</td>
+                    @endif
                 @endforeach
 
                 @if(Auth::user()->can('User.Update') || Auth::user()->can('User.Delete'))

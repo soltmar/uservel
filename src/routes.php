@@ -12,8 +12,8 @@ Route::namespace($namespace)
 
         if (class_exists('\Spatie\Permission\PermissionServiceProvider')) {
             Route::resources([
-                'user/role'       => 'RoleController',
-                'user/permission' => 'PermissionController'
+                config('uservel.route').'/role'       => 'RoleController',
+                config('uservel.route').'/permission' => 'PermissionController'
             ]);
         }
 
