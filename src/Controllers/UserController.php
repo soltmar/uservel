@@ -19,7 +19,10 @@ class UserController extends Controller
     {
         $select = config('uservel.displayProperties');
         $select[] = 'id';
-        $users = \User::select($select)->orderBy('name')->get();
+        $users = \User::orderBy('name')->get();
+        if ($this->rightsInstalled && config('uservel.showRoles')) {
+            $users->load('roles');
+        }
         return view('uservel::user.list')->with([
             'user'  => Auth::user(),
             'users' => $users
@@ -155,6 +158,11 @@ class UserController extends Controller
      */
     public function destroy(Request $request, $id)
     {
+        $user = User::findOrFail($id);
+        if ($user->isSuperAdmin() && !Auth::user()->isSuperAdmin()) {
+            abort(403, 'You have to be Superadmin to delete this user');
+        }
+
         if (User::destroy($id)) {
             return redirect()->route('user.index')->with('laralert', [[
                 'type'    => 'success',

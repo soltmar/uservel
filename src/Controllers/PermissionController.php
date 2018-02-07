@@ -114,11 +114,11 @@ class PermissionController extends Controller
         if (Permission::destroy($id)) {
             $request->session()->flash('laralert', [[
                 'type' => 'success',
-                'content' => 'permission has been deleted.'
+                'content' => 'Permission has been deleted.'
             ]]);
             app(PermissionRegistrar::class)->forgetCachedPermissions();
 
-            return redirect()->route('permission.index');
+            return;
         }
 
         $request->session()->flash('laralert', [[
@@ -126,6 +126,6 @@ class PermissionController extends Controller
             'content' => "Error - Permission hasn't been deleted!"
         ]]);
 
-        return redirect()->route('permission.index');
+        return;
     }
 }

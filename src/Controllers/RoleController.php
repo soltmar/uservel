@@ -134,6 +134,8 @@ class RoleController extends Controller
                 'type'    => 'success',
                 'content' => 'Role has been deleted.'
             ]]);
+
+            return;
         }
 
         $request->session()->flash('laralert', [[
