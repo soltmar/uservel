@@ -51,6 +51,9 @@ class UservelServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__ . '/../resources/css' => public_path('vendor/marsoltys/uservel'),
             ], 'public');
+
+
+            $this->publishes([__DIR__ . '/../config/uservel.php' => config_path('uservel.php')], 'uservel_config');
         }
 
         // Register Routes
@@ -81,7 +84,7 @@ class UservelServiceProvider extends ServiceProvider
     {
 
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/uservel.php', 'uservel'
+            __DIR__ . '/../config/defaults.php', 'uservel'
         );
 
         // Check if user have already defined 'User" facade/alias
