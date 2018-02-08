@@ -16,7 +16,7 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        $this->authorize(Permissions::PERMISSION_VIEW);
+        $this->authorize('Permissions.View');
         $permissions = Permission::orderBy('name')->get();
         return view('uservel::permission.list',[
             'permissions' => $permissions
@@ -30,7 +30,7 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        $this->authorize(Permissions::PERMISSION_CREATE);
+        $this->authorize('Permissions.Create');
         return view('uservel::permission.form', [
             'title' => 'Create permission'
         ]);
@@ -44,7 +44,7 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize(Permissions::PERMISSION_CREATE);
+        $this->authorize('Permissions.Create');
         $data = $request->validate([
             'name' => 'required|unique:permissions|max:255'
         ]);
@@ -72,7 +72,7 @@ class PermissionController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize(Permissions::PERMISSION_UPDATE);
+        $this->authorize('Permissions.Update');
         $permission = Permission::findOrFail($id);
         return view('uservel::permission.form', [
             'permission'=>$permission,
@@ -89,7 +89,7 @@ class PermissionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->authorize(Permissions::PERMISSION_UPDATE);
+        $this->authorize('Permissions.Update');
         $permission = Permission::findOrFail($id);
 
         $data = $request->validate([
@@ -110,7 +110,7 @@ class PermissionController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $this->authorize(Permissions::PERMISSION_DELETE);
+        $this->authorize('Permissions.Delete');
         if (Permission::destroy($id)) {
             $request->session()->flash('laralert', [[
                 'type' => 'success',

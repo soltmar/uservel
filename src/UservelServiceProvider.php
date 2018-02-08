@@ -34,7 +34,7 @@ class UservelServiceProvider extends ServiceProvider
     {
         $this->registerModelBindings();
 
-        $this->registerSuperAdmin($gate);
+        //$this->registerSuperAdmin($gate);
 
         // Register policy
         $gate->policy(\User::class, UserPolicy::class);
@@ -114,6 +114,7 @@ class UservelServiceProvider extends ServiceProvider
         $gate->before(function (Authenticatable $user, string $ability) {
             try {
                 if (method_exists($user, 'isSuperAdmin')) {
+                    dd($user);
                     return $user->isSuperAdmin();
                 }
             } catch (UnauthorizedException $e) {

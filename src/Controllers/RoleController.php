@@ -17,7 +17,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $this->authorize(Permissions::ROLE_VIEW);
+        $this->authorize('Role.View');
         $roles = Role::orderBy('name')->get();
         return view('uservel::role.list', [
             'roles' => $roles
@@ -31,7 +31,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        $this->authorize(Permissions::ROLE_CREATE);
+        $this->authorize('Role.Create');
         return view('uservel::role.form', [
             'title' => 'Create Role',
             'permissions' => Permission::all()
@@ -46,7 +46,7 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize(Permissions::ROLE_CREATE);
+        $this->authorize('Role.Create');
         $request = $this->handleEmptyRight($request);
 
         $data = $request->validate([
@@ -77,7 +77,7 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize(Permissions::ROLE_UPDATE);
+        $this->authorize('Role.Update');
         $role = Role::findOrFail($id);
         $permissions = $role->permissions()->orderBy('name')->get()->pluck('id');
 
@@ -97,7 +97,7 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->authorize(Permissions::ROLE_UPDATE);
+        $this->authorize('Role.Update');
         $request = $this->handleEmptyRight($request);
 
         $role = Role::findOrFail($id);
@@ -128,7 +128,7 @@ class RoleController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $this->authorize(Permissions::ROLE_DELETE);
+        $this->authorize('Role.Delete');
         if (Role::destroy($id)) {
             $request->session()->flash('laralert', [[
                 'type'    => 'success',
