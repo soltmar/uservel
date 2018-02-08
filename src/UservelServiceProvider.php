@@ -34,8 +34,6 @@ class UservelServiceProvider extends ServiceProvider
     {
         $this->registerModelBindings();
 
-        //$this->registerSuperAdmin($gate);
-
         // Register policy
         $gate->policy(\User::class, UserPolicy::class);
 
@@ -43,6 +41,8 @@ class UservelServiceProvider extends ServiceProvider
         if (class_exists(\Spatie\Permission\Middlewares\RoleMiddleware::class)) {
             $router->aliasMiddleware('role', \Spatie\Permission\Middlewares\RoleMiddleware::class);
             $router->aliasMiddleware('permission', \Spatie\Permission\Middlewares\PermissionMiddleware::class);
+        } else {
+            $this->registerSuperAdmin($gate);
         }
 
         //Register Console Commands
