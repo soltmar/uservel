@@ -52,17 +52,23 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request = $this->handleEmptyRight($request);
+
         $data = $request->validate([
             'username'         => 'required|unique:users|max:255',
-            'name'             => 'required|unique:users|max:255',
+            'name'             => 'required|max:255',
             'email'            => 'required|email',
             'password'         => 'required',
-            'confirm-password' => 'same:password'
+            'confirm-password' => 'same:password',
+            'roles'            => 'nullable' . $this->rightsInstalled ? '|array' : '',
+            'perms'            => 'nullable' . $this->rightsInstalled ? '|array' : ''
         ]);
 
         $data['password'] = bcrypt($data['password']);
 
-        if (User::create($data)) {
+        if ($user = User::create($data)) {
+            if ($this->rightsInstalled) {
+                $user->syncRights($data);
+            }
             return redirect()->route('user.index')->with('laralert', [[
                 'type'    => 'success',
                 'content' => 'User has been created successfully.'
