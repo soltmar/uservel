@@ -19,3 +19,4 @@ change user provider class in auth.php conifg to:
            ...
 ]
 ```
+
