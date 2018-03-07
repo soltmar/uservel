@@ -65,7 +65,9 @@ class UserController extends Controller
 
         $data['password'] = bcrypt($data['password']);
 
-        if ($user = User::create($data)) {
+        $user = (new User)->addFillable('username')->fill($data)->save();
+
+        if ($user) {
             if ($this->rightsInstalled) {
                 $user->syncRights($data);
             }
@@ -122,7 +124,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $request = $this->handleEmptyRight($request);
-        $user = User::findOrFail($id);
+        $user = User::findOrFail($id)->addFillable('username');
 
         $data = $request->validate([
             'username'         => 'required|max:255|unique:users,username,' . $user->id,

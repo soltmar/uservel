@@ -18,6 +18,7 @@ if (trait_exists('\Spatie\Permission\Traits\HasRoles')) {
         }
         use HasSuperAdmin;
         use SpatiePermissions;
+        use AddsFillable;
     }
 } else {
 
@@ -26,5 +27,6 @@ if (trait_exists('\Spatie\Permission\Traits\HasRoles')) {
     trait Uservel
     {
         use HasSuperAdmin;
+        use AddsFillable;
     }
 }
