@@ -27,5 +27,5 @@ return [
      * when creating permissions and roles hierarchy
      */
 
-    'autoadd' => true
+    'autoadd' => false
 ];
