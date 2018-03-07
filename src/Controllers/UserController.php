@@ -65,7 +65,8 @@ class UserController extends Controller
 
         $data['password'] = bcrypt($data['password']);
 
-        $user = (new User)->addFillable('username')->fill($data)->save();
+        $user = (new User)->addFillable('username')->fill($data);
+        $user->save();
 
         if ($user) {
             if ($this->rightsInstalled) {
