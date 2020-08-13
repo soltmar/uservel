@@ -23,7 +23,7 @@ trait HandleEmptyRights
             $request->perms = [];
         }
 
-        if (count($request->roles) > 1) {
+        if (! empty($request->roles) && count($request->roles) >= 1) {
             $request->roles = array_filter($request->roles);
         }
 
