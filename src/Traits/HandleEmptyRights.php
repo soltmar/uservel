@@ -14,7 +14,7 @@ trait HandleEmptyRights
      */
     public function handleEmptyRight(Request $request)
     {
-        if (count($request->perms) > 1) {
+        if (! empty($request->perms)) {
             $request->perms = array_filter($request->perms);
         }
 
